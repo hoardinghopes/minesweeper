@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <title>Minesweeper</title>
+        <link rel="stylesheet" type="text/css" href="i/css/styles.css"/>
+    </head>
+    <body oncontextmenu="return false;">
+        <div id="sidebar">
+            <div class="options">
+                <h2>Choose your player and level</h2>
+                <form id="parameters">
+                    <label class="lalign" for="player">Select player</label>
+                    <select id="player" name="player">
+                        <option value="1">jamesk</option>
+                        <option value="2">mightymai</option>
+                        <option value="3">shona</option>
+                    </select>
+                    <br>
+                    <input type="radio" id="b" name="level" checked="">
+                    <label for="b">Beginner</label>
+                    <br>
+                    <input type="radio" id="i" name="level">
+                    <label for="i">Intermediate</label>
+                    <br>
+                    <input type="radio" id="e" name="level">
+                    <label for="e">Expert</label>
+                    <br>
+                </form>
+                <button onclick="newGame()">New Game</button>
+            </div>
+
+            <div class="instructions">
+                <h2>Instructions</h2>
+                <label id='status'></label>
+                <p>Time: <span id="timer">0</span></p>
+            </div>
+
+            <div class="scores">
+                <h2>High scores</h2>
+                <ol id="scoreList"></ol>
+            </div>
+        </div>
+
+        <div id="main">
+            <div id="grid"></div>
+
+        </div>
+        <script type="text/javascript" src="i/js/game.js"></script>
+    </body>
+</html>
