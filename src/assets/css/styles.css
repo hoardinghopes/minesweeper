@@ -1,0 +1,105 @@
+body {
+    display: flex;
+    flex-direction: row;
+    align-items: space-between;
+    gap: 2rem;
+}
+
+#grid {
+    display: grid;
+    gap: 2px;
+
+}
+
+.beginner {
+    grid-template-columns: repeat(10, 1fr);
+    max-width: 400px;
+    max-height: 400px;
+}
+
+.intermediate {
+    grid-template-columns: repeat(16, 1fr);
+    max-height: 0px;
+}
+
+.expert {
+    grid-template-columns: repeat(30, 1fr);
+}
+
+.instructions {
+    /* border-bottom: solid 2px grey; */
+    margin-bottom: 4rem;
+}
+
+.options {
+
+    border: solid 2px grey;
+    margin-bottom: 4rem;
+    padding: 2rem;
+}
+
+#sidebar {
+    height: 100vh;
+    max-width: 33%;
+}
+
+#main {
+    min-width: 66%;
+    height: 100vh;
+    display: flex;
+}
+
+label {
+    margin: 0.5rem;
+}
+
+label.lalign {
+    margin-left: 0;
+}
+
+select {
+    margin-bottom: 0.5rem;
+}
+
+input[type="radio"] {
+    margin: 0.25rem 0;
+}
+
+
+form {
+    margin-bottom: 2rem;
+}
+
+
+button {
+    background-color: #13aa52;
+    border: 1px solid #13aa52;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    outline: none;
+    outline: 0;
+    padding: 10px 25px;
+    text-align: center;
+    transform: translateY(0);
+    transition: transform 150ms, box-shadow 150ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+button:hover {
+    box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
+    transform: translateY(-2px);
+}
+
+@media (min-width: 768px) {
+    .button-37 {
+        padding: 10px 30px;
+    }
+}
