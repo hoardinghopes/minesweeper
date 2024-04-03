@@ -23,7 +23,7 @@ All good projects make space for playing with one new technology. But home proje
 
 ## Project set up
 
-Using `fnm`, I have set the project's node version to v20.10.0.
+Using `fnm`, I have set the project's node version to v20.10.0 (necessary for `biome` on `arm64` architecture).
 I am using `bun` 1.1.0.
 
 All other versions are in `package.json`.
