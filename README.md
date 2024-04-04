@@ -50,3 +50,11 @@ bun dev
 ```
 
 Open <http://localhost:3572/> with your browser to see the result.
+
+
+## TODO list
+
+- Styling *beyond a single green button*
+- Improving Instructions panel, so they are obvious as they change
+- Retrieving users from DB, and adding field to create new user
+- Recording date/time of game result, and displaying that in the high scores.
