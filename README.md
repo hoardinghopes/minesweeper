@@ -64,5 +64,5 @@ Open <http://localhost:3572/> with your browser to see the result.
 - add `deleteUser()` that cascades through `scores` deleting them too
 - fix the incorrect numbers surrounding mines, e.g. a beginner's game shows 11 mines! **Still need to check this is true**
 - ~~update types etc so that Swagger interface is more useful~~
-- `db.addScore()` does too much - it checks for a user, and creates one if it doesn't exist, and then adds the score. All this should be the responsibility of the API call, and `addScore()` should only add the score.
+- ~~`db.addScore()` does too much - it checks for a user, and creates one if it doesn't exist, and then adds the score. All this should be the responsibility of the API call, and `addScore()` should only add the score.~~
 - cover API with tests

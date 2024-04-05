@@ -119,21 +119,9 @@ export class MinesweeperDB {
     }
 
     async addScore(timeCompleted: number, userID: number) {
-        console.log(`addScore: ${timeCompleted} ${userID}`);
-        // const existingUser = await this.confirmOrAddUser(userID);
-
-        // console.log(`User (${userID}):`, existingUser);
-
-        // const user = await this.db
-        //     .select()
-        //     .from(users)
-        //     .where(eq(users.name, userID))
-        //     .limit(1)
-        //     .get();
-
-        // if (!user) {
-        //     throw new Error("User not found");
-        // }
+        if (!timeCompleted) {
+            throw new Error(`No timeCompleted provided or wrong format: ${timeCompleted}`);
+        }
 
         const result = await this.db
             .insert(scores)

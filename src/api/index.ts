@@ -25,17 +25,15 @@ const api = new Elysia()
                             return JSON.stringify({ error: "No timeCompleted integer provided" });
                         }
 
-                        console.log(`/api/scores/new: ${timeCompleted}, ${userID}`);
-
                         const user = await db.getUser(id);
-
                         if (!user) {
                             return JSON.stringify({ error: "User not found" });
                         }
 
                         const result = await db.addScore(score, id);
                         return JSON.stringify(result);
-                    }, { query: t.Object({ timeCompleted: t.String(), userID: t.String() }) })
+                    },
+                        { query: t.Object({ timeCompleted: t.String(), userID: t.String() }) })
 
                     .get("/delete", async ({ db, query: { scoreID } }) => {
                         const id = Number(scoreID);
@@ -45,7 +43,8 @@ const api = new Elysia()
                         console.log(`/api/scores/delete: ${scoreID}`);
                         const result = await db.deleteScore(id);
                         return JSON.stringify(result);
-                    }, { query: t.Object({ scoreID: t.String() }) })
+                    },
+                        { query: t.Object({ scoreID: t.String() }) })
             )
             .group("users", (app) =>
                 app
@@ -60,7 +59,8 @@ const api = new Elysia()
                         }
                         const result = await db.addUser(name);
                         return JSON.stringify(result);
-                    }, { query: t.Object({ name: t.String() }) })
+                    },
+                        { query: t.Object({ name: t.String() }) })
 
                     .get("/update", async ({ db, query: { userID, newName } }) => {
                         const id = Number(userID);
@@ -72,7 +72,8 @@ const api = new Elysia()
                         }
                         const result = await db.updateUser(id, newName);
                         return JSON.stringify(result);
-                    }, { query: t.Object({ userID: t.String(), newName: t.String() }) })
+                    },
+                        { query: t.Object({ userID: t.String(), newName: t.String() }) })
 
                     .get("/delete", async ({ db, query: { userID } }) => {
                         const id = Number(userID);
@@ -84,7 +85,8 @@ const api = new Elysia()
                             return JSON.stringify(`User ${userID} has been deleted`);
                         }
                         return JSON.stringify(`User ${userID} does not exist`);
-                    }, { query: t.Object({ userID: t.String() }) })
+                    },
+                        { query: t.Object({ userID: t.String() }) })
             )
 
 
