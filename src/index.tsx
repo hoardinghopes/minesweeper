@@ -1,15 +1,19 @@
 import { Elysia } from "elysia";
+import fragments from "./api/fragments";
 import api from "./api";
-import { MinesweeperDB } from "./db";
 import { html } from '@elysiajs/html'
 import { staticPlugin } from '@elysiajs/static'
+import { swagger } from '@elysiajs/swagger'
 
-const app = new Elysia()
-  .decorate('db', new MinesweeperDB())
-  .use(staticPlugin({ assets: "./src/assets", prefix: "/i" }))
+
+
+export const app = new Elysia()
   .use(api)
+  .use(fragments)
+  .use(staticPlugin({ assets: "./src/assets", prefix: "/i" }))
   .use(html())
-  .get("/", () => Bun.file("./src/index.html").text());
+  .use(swagger())
+  .get("/", () => Bun.file("./src/index.html").text())
 
 
 
