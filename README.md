@@ -43,6 +43,13 @@ bun drizzle-kit generate:sqlite
 bun run ./src/db/migrate.ts
 ```
 
+For `foreign key` constraints to work (e.g. cascading deletes), this functionality has to be switched on *within* the database:
+```zsh
+#sqlite3 ./data/minsweeper.db
+
+PRAGMA foreign_keys  = ON;
+```
+
 ## Development
 
 To start the development server run:
