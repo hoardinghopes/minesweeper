@@ -1,6 +1,6 @@
 
 import { migrate } from "drizzle-orm/bun-sqlite/migrator";
-import { db } from "./index";
+import { MinesweeperDB } from "./index";
 
 
-await migrate(db, { migrationsFolder: "drizzle" });
+await migrate(new MinesweeperDB().getDB(), { migrationsFolder: "drizzle" });
