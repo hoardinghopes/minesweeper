@@ -27,7 +27,7 @@ const gameParameters = {
     },
     player: {
         name: "",
-        ID: 0
+        ID: -1
     }
 };
 
@@ -38,6 +38,7 @@ let remaining;
 let revealed;
 let intervalID = null;
 let seconds = 0;
+let gameOver = false;
 
 const statusLabel = document.getElementById('status');
 statusLabel.addEventListener('click', newGame);
@@ -72,15 +73,23 @@ function getGameParameters() {
     gameParameters.level = level;
 
     const player = document.getElementById("player");
+    const val = player.value;
+    const selectedIdx = player.selectedIndex;
+
+    let playerName = player.options[selectedIdx].text;
+    if (val === "-1") {
+        playerName = document.getElementById("new-player").value;
+    }
     gameParameters.player = {
-        ID: Number.parseInt(player.value),
-        name: player.options[player.selectedIndex].text
+        name: playerName,
+        ID: val
     };
     console.log(gameParameters);
     return level;
 }
 
 function newGame() {
+    gameOver = false;
 
     if (intervalID) {
         resetTimer();
@@ -163,6 +172,9 @@ function resetTimer() {
 }
 
 function click(event) {
+    if (gameOver) {
+        return;
+    }
     if (!intervalID) {
         intervalID = setInterval(updateTimer, 1000);
     }
@@ -214,29 +226,10 @@ function click(event) {
         statusLabel.innerHTML = 'YOU WIN!<br><br>Click here to restart';
         clearInterval(intervalID);
         sendResults(seconds, gameParameters.player);
+        gameOver = true;
     }
 }
 
-function sendResults(timeScore, player) {
-
-
-    fetch(`/api/game-result?timeCompleted=${timeScore}&name=${player.name}&playerID=${player.ID}`)
-
-        // fetch('/api/game-results', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({ timeScore, id })
-        // })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            updateScores();
-        })
-        .catch(error => console.error('Error:', error));
-
-}
 
 function reveal(row, column) {
     tile[row][column].src = `/i/images/${board[row][column]}.png`;
@@ -258,22 +251,24 @@ function reveal(row, column) {
 }
 
 
-newGame();
 
-updateScores();
+function sendResults(timeScore, player) {
 
-function updateScores() {
-    console.log("updateScores()");
-    fetch("/api/scores")
+
+    fetch(`/api/scores/new?timeCompleted=${timeScore}&playerID=${player.ID}&name=${player.name}`)
+
+        // fetch('/api/scores/new', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({ timeScore, player.name, player.ID })
+        // })
         .then(response => response.json())
         .then(data => {
-            removeChildren("scoreList");
-            const scoreList = document.getElementById('scoreList');
-            for (const score of data) {
-                const scoreItem = document.createElement('li');
-                scoreItem.textContent = `${score.user}: ${score.timeCompleted}`;
-                scoreList.appendChild(scoreItem);
-            };
+            console.log(data);
         })
         .catch(error => console.error('Error:', error));
+
 }
+
