@@ -2,6 +2,7 @@
     <head>
         <title>Minesweeper</title>
         <link rel="stylesheet" type="text/css" href="i/css/styles.css"/>
+        <script src="https://unpkg.com/htmx.org@1.9.11" integrity="sha384-0gxUXCCR8yv9FM2b+U3FDbsKthCI66oH5IA9fHppQq9DDMHuMauqq1ZHBpJxQ0J0" crossorigin="anonymous"></script>
     </head>
     <body oncontextmenu="return false;">
         <div id="sidebar">
@@ -10,10 +11,16 @@
                 <form id="parameters">
                     <label class="lalign" for="player">Select player</label>
                     <select id="player" name="player">
+                        <option value="0">yarrs</option>
                         <option value="1">jamesk</option>
                         <option value="2">mightymai</option>
                         <option value="3">shona</option>
                     </select>
+                    <div hx-get="/fragments/user-select-list" hx-trigger="load" hx-target="#player"></div>
+                    <br>
+                    <label class="lalign" for="new-player">
+                        Or add new user</label>
+                    <input type="text" name="new-player" id="new-player" placeholder="new username"/>
                     <br>
                     <input type="radio" id="b" name="level" checked="">
                     <label for="b">Beginner</label>
@@ -25,7 +32,7 @@
                     <label for="e">Expert</label>
                     <br>
                 </form>
-                <button onclick="newGame()">New Game</button>
+                <button hx-get="/fragments/top-scores" hx-target="#scores-table-holder" onclick="newGame()">New Game</button>
             </div>
 
             <div class="instructions">
@@ -35,8 +42,8 @@
             </div>
 
             <div class="scores">
-                <h2>High scores</h2>
-                <ol id="scoreList"></ol>
+                <h2>Fastest times</h2>
+                <div id="scores-table-holder" hx-get="/fragments/top-scores" hx-trigger="load"></div>
             </div>
         </div>
 
