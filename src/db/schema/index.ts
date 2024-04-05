@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 
@@ -19,9 +20,23 @@ export const scores = sqliteTable('scores', {
         .notNull()
         .$defaultFn(() => new Date()),
     userId: integer("userId")
+        .references(() => users.id, { onUpdate: "cascade", onDelete: "cascade" })
         .notNull()
-        .references(() => users.id, { onDelete: "cascade" })
 });
+
+export type Score = typeof scores.$inferSelect;
+
+export const usersRelations = relations(users, ({ many }) => ({
+    scores: many(scores),
+}));
+
+export const scoresRelations = relations(scores, ({ one }) => ({
+    author: one(users, {
+        fields: [scores.userId],
+        references: [users.id],
+    }),
+}));
+
 
 export type InsertUser = typeof users.$inferInsert;
 export type SelectUser = typeof users.$inferSelect;

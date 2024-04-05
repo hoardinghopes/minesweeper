@@ -4,11 +4,19 @@ import { type SelectUser, scores, users } from "./schema";
 import { asc, eq } from "drizzle-orm";
 
 
+const TEST_DB_URI = "./data/test.db";
+const LIVE_DB_URI = "./data/minesweeper.db";
+
+
 export class MinesweeperDB {
 
     private db;
     constructor() {
-        this.db = drizzle(new Database('./data/minesweeper.db'));
+        if (process.env.NODE_ENV === 'test') {
+            this.db = drizzle(new Database(TEST_DB_URI));
+        } else {
+            this.db = drizzle(new Database(LIVE_DB_URI));
+        }
     }
 
     getDB() {
@@ -37,24 +45,6 @@ export class MinesweeperDB {
             .returning()
             .get();
         return result;
-    }
-
-    async confirmOrAddUser(name: string) {
-        const result = await this.db
-            .select()
-            .from(users)
-            .where(eq(users.name, name))
-            .limit(1)
-            .get();
-
-        console.log(`User ${name} exists: `, result);
-
-        let user = result;
-        if (!user) {
-            user = await this.addUser(name);
-            console.log(`User ${name} added: `, user);
-        }
-        return user;
     }
 
 
@@ -93,13 +83,12 @@ export class MinesweeperDB {
             scoreID: scores.id
         }).from(scores).leftJoin(users, eq(scores.userId, users.id)).orderBy(asc(scores.timeCompleted)).limit(10).all();
 
+        console.log(rows)
+
         if (!rows) {
             console.error("No scores found");
             return { error: "No scores found" };
         }
-
-        // console.log(rows);
-
 
         const result = [];
         for (const row of rows) {
