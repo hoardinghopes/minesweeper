@@ -12,11 +12,11 @@ export class MinesweeperDB {
 
     private db;
     constructor() {
-        if (process.env.NODE_ENV === 'test') {
-            this.db = drizzle(new Database(TEST_DB_URI));
-        } else {
-            this.db = drizzle(new Database(LIVE_DB_URI));
-        }
+        // if (process.env.NODE_ENV === 'test') {
+        //     this.db = drizzle(new Database(TEST_DB_URI));
+        // } else {
+        this.db = drizzle(new Database(LIVE_DB_URI));
+        // }
     }
 
     getDB() {
