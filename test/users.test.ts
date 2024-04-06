@@ -1,5 +1,5 @@
 // test/index.test.ts
-import { afterAll, describe, expect, it } from 'bun:test'
+import { describe, expect, it } from 'bun:test'
 import { app } from "../src/index";
 
 
