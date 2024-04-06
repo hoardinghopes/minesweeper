@@ -11,6 +11,6 @@ COPY . .
 
 EXPOSE 3000
 
-CMD ["bun", "drizzle-kit generate:sqlite"]
-CMD ["bun", "run ./src/db/migrate.ts"]
+CMD ["bun", "db"]
+
 CMD ["bun", "./src/index.tsx"]

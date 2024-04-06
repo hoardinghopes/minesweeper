@@ -6,7 +6,10 @@
     "dev": "bun run --watch src/index.tsx",
     "biome:lint": "biome lint ./src",
     "biome:format": "biome format --write ./src",
-    "biome": "bun run biome:lint && bun run biome:format"
+    "biome": "bun run biome:lint && bun run biome:format",
+    "db:setup": "bun drizzle-kit generate:sqlite",
+    "db:migrate": "bun run ./src/db/migrate.ts",
+    "db": "bun run db:setup && bun run db:migrate"
   },
   "dependencies": {
     "@elysiajs/html": "^1.0.2",
