@@ -84,7 +84,6 @@ function getGameParameters() {
         name: playerName,
         ID: val
     };
-    console.log(gameParameters);
     return level;
 }
 
@@ -253,22 +252,25 @@ function reveal(row, column) {
 
 
 function sendResults(timeScore, player) {
-
-
-    fetch(`/api/scores/new?timeCompleted=${timeScore}&playerID=${player.ID}&name=${player.name}`)
-
-        // fetch('/api/scores/new', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({ timeScore, player.name, player.ID })
-        // })
+    fetch('/api/scores/new', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ timeCompleted: timeScore, playerID: Number.parseInt(player.ID) })
+    })
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            updateScores();
         })
         .catch(error => console.error('Error:', error));
-
 }
 
+function updateScores() {
+    fetch('/fragments/top-scores')
+        .then(response => response.text())
+        .then((data) => {
+            document.getElementById('scores-table-holder').innerHTML = data;
+        })
+        .catch(error => console.error('Error:', error));
+}
