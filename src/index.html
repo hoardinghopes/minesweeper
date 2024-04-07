@@ -1,17 +1,36 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>Minesweeper</title>
-        <link rel="stylesheet" type="text/css" href="i/css/styles.css"/>
-        <script src="i/js/htmx.1.9.11.min.js"></script>
-    </head>
-    <body oncontextmenu="return false;">
+
+<head>
+    <title>Minesweeper</title>
+    <link rel="stylesheet" type="text/css" href="i/css/styles.css"/>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <script src="i/js/htmx.1.9.11.min.js"></script>
+</head>
+
+<body oncontextmenu="return false;">
+
+    <div class="navbar">
+        <div id="center_nav">
+            <div id="topMineCount" class="fas fa-bomb">: <span>10</span></div>
+            <div id="face" class="fas fa-smile" onclick="new_game(total_bombs,row,col)"></div>
+            <div id="topTimeDisplay" class="far fa-clock">: <span>0</span></div>
+        </div>
+    </div>
+
+    <div id="main">
         <div id="sidebar">
             <div class="options">
                 <h2>Choose your player and level</h2>
                 <form id="parameters">
                     <label class="lalign" for="player">Select player</label>
                     <select id="player" name="player">
-                        <option value="0">yarrs</option>
+                        <option value="0"></option>
                         <option value="1">jamesk</option>
                         <option value="2">mightymai</option>
                         <option value="3">shona</option>
@@ -20,7 +39,7 @@
                     <br>
                     <label class="lalign" for="new-player">
                         Or add new user</label>
-                    <input type="text" name="new-player" id="new-player" placeholder="new username"/>
+                    <input type="text" name="new-player" id="new-player" placeholder="new username" />
                     <br>
                     <input type="radio" id="b" name="level" checked="">
                     <label for="b">Beginner</label>
@@ -32,7 +51,8 @@
                     <label for="e">Expert</label>
                     <br>
                 </form>
-                <button hx-get="/fragments/top-scores" hx-target="#scores-table-holder" onclick="newGame()">New Game</button>
+                <button hx-get="/fragments/top-scores" hx-target="#scores-table-holder" onclick="newGame()">New
+                    Game</button>
             </div>
 
             <div class="instructions">
@@ -49,10 +69,11 @@
             </div>
         </div>
 
-        <div id="main">
-            <div id="grid"></div>
+        <div id="grid"></div>
+    </div>
 
-        </div>
-        <script type="text/javascript" src="i/js/game.js"></script>
-    </body>
+
+    <script type="text/javascript" src="i/js/game.js"></script>
+</body>
+
 </html>

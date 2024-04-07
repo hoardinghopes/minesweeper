@@ -1,4 +1,92 @@
+* {
+    margin: 0;
+    /* padding: 0; */
+    box-sizing: border-box;
+    /* font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
+    color: grey;
+}
+
+.navbar {
+    display: flex;
+    font-size: 200%;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0.5em;
+    width: 100%;
+    background: #1c8924;
+}
+
+#center_nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#topMineCount,
+#topTimeDisplay {
+    background: black;
+    border-radius: 5px;
+    color: white;
+    padding: 0.5em 1em 0.5em 1em;
+}
+
+#face {
+    color: yellow;
+    padding: 0.5em;
+    margin: 0 0.5em 0 0.5em;
+    background: grey;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.line {
+    background: white;
+    width: 1em;
+    height: 0.1em;
+    margin: 0.1em;
+}
+
+#grid {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    /* background: lightgrey;
+    margin: auto; */
+    justify-content: space-around;
+}
+
+.poppins-light {
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.poppins-regular {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.poppins-bold {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
 body {
+    font-family: "Poppins", sans-serif;
+    font-weight: 300;
+    font-style: normal;
+}
+
+#sidebar {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+#main {
     display: flex;
     flex-direction: row;
     align-items: space-between;
@@ -8,7 +96,7 @@ body {
 #grid {
     display: grid;
     gap: 2px;
-
+    margin: 2rem;
 }
 
 .beginner {
@@ -22,84 +110,30 @@ body {
     max-height: 0px;
 }
 
+.intermediate img {
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+}
+
 .expert {
     grid-template-columns: repeat(30, 1fr);
+    gap: 1px;
 }
 
-.instructions {
-    /* border-bottom: solid 2px grey; */
-    margin-bottom: 4rem;
-}
-
-.options {
-
-    border: solid 2px grey;
-    margin-bottom: 4rem;
-    padding: 2rem;
-}
-
-#sidebar {
-    height: 100vh;
-    max-width: 33%;
-}
-
-#main {
-    min-width: 66%;
-    height: 100vh;
-    display: flex;
-}
-
-label {
-    margin: 0.5rem;
-}
-
-label.lalign {
-    margin-left: 0;
-}
-
-select {
-    margin-bottom: 0.5rem;
-}
-
-input[type="radio"] {
-    margin: 0.25rem 0;
-}
-
-
-form {
-    margin-bottom: 2rem;
-}
-
-
-button {
-    background-color: #13aa52;
-    border: 1px solid #13aa52;
-    border-radius: 4px;
-    box-shadow: rgba(0, 0, 0, .1) 0 2px 4px 0;
-    box-sizing: border-box;
-    color: #fff;
-    cursor: pointer;
-    font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    outline: none;
-    outline: 0;
-    padding: 10px 25px;
-    text-align: center;
-    transform: translateY(0);
-    transition: transform 150ms, box-shadow 150ms;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-}
-
-button:hover {
-    box-shadow: rgba(0, 0, 0, .15) 0 3px 9px 0;
-    transform: translateY(-2px);
-}
-
-@media (min-width: 768px) {
-    .button-37 {
-        padding: 10px 30px;
+@media screen and (max-width: 960px) {
+    .expert {
+        grid-template-columns: repeat(20, 1fr);
     }
+
+}
+
+.expert img {
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+}
+
+#face.red {
+    color: red;
 }

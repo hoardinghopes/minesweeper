@@ -37,7 +37,7 @@ let tile;
 let remaining;
 let revealed;
 let intervalID = null;
-let seconds = 0;
+let seconds = -1;
 let gameOver = false;
 
 const statusLabel = document.getElementById('status');
@@ -88,6 +88,8 @@ function getGameParameters() {
 }
 
 function newGame() {
+
+    // resets
     gameOver = false;
 
     if (intervalID) {
@@ -95,6 +97,8 @@ function newGame() {
     }
 
     removeChildren("grid");
+
+    setGameFace("waiting");
 
     const { rows, columns, mines, className } = getGameParameters();
 
@@ -161,12 +165,14 @@ function newGame() {
 function updateTimer() {
     const time = document.getElementById('timer');
     time.innerHTML = ++seconds;
+    const topTimeDisplay = document.querySelector('#topTimeDisplay span');
+    topTimeDisplay.innerHTML = seconds;
 }
 
 function resetTimer() {
     clearInterval(intervalID);
     intervalID = null;
-    seconds = 0;
+    seconds = -1;
     updateTimer();
 }
 
@@ -202,6 +208,8 @@ function click(event) {
         event.preventDefault();
     }
     statusLabel.innerHTML = `Mines remaining: ${remaining}`;
+    const topMineCount = document.querySelector('#topMineCount span');
+    topMineCount.innerHTML = remaining;
 
     if (event.which === 1 && picture[row][column] !== 'flag') {
         if (board[row][column] === 'mine') {
@@ -215,6 +223,7 @@ function click(event) {
                     }
                 }
             clearInterval(intervalID);
+            setGameFace("lose");
             statusLabel.innerHTML = 'GAME OVER<br><br>Click here to restart';
         } else {
             if (picture[row][column] === 'hidden') reveal(row, column);
@@ -222,6 +231,7 @@ function click(event) {
     }
 
     if (revealed === gameParameters.level.rows * gameParameters.level.columns - gameParameters.level.mines) {
+        setGameFace("win")
         statusLabel.innerHTML = 'YOU WIN!<br><br>Click here to restart';
         clearInterval(intervalID);
         sendResults(seconds, gameParameters.player);
@@ -252,18 +262,22 @@ function reveal(row, column) {
 
 
 function sendResults(timeScore, player) {
-    fetch('/api/scores/new', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ timeCompleted: timeScore, playerID: Number.parseInt(player.ID) })
-    })
-        .then(response => response.json())
-        .then(data => {
-            updateScores();
+    // check that a player has been selected, otherwise don't send results
+    if (player.ID) {
+        fetch('/api/scores/new', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ timeCompleted: timeScore, playerID: Number.parseInt(player.ID) })
         })
-        .catch(error => console.error('Error:', error));
+            .then(response => response.json())
+            .then(data => {
+                updateScores();
+            })
+            .catch(error => console.error('Error:', error));
+
+    }
 }
 
 function updateScores() {
@@ -273,4 +287,23 @@ function updateScores() {
             document.getElementById('scores-table-holder').innerHTML = data;
         })
         .catch(error => console.error('Error:', error));
+}
+
+
+function setGameFace(expression) {
+
+    let className = "";
+
+
+    switch (expression) {
+        case "lose":
+            className = "fas fa-dizzy";
+            break;
+        case "win":
+            className = "fas fa-grin-beam";
+            break;
+        default:
+            className = "fas fa-smile";
+    }
+    document.getElementById("face").setAttribute('class', className);
 }
