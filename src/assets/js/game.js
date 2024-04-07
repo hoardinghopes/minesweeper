@@ -3,19 +3,19 @@ const beginner = {
     rows: 10,
     columns: 10,
     mines: 10,
-    className: "beginner"
+    name: "beginner"
 };
 const intermediate = {
     rows: 16,
     columns: 16,
     mines: 40,
-    className: "intermediate"
+    name: "intermediate"
 };
 const expert = {
     rows: 30,
     columns: 30,
     mines: 99,
-    className: "expert"
+    name: "expert"
 };
 
 const gameParameters = {
@@ -23,7 +23,7 @@ const gameParameters = {
         rows: 0,
         columns: 0,
         mines: 0,
-        className: "",
+        name: "",
     },
     player: {
         name: "",
@@ -84,7 +84,7 @@ function getGameParameters() {
         name: playerName,
         ID: val
     };
-    return level;
+    return gameParameters;
 }
 
 function newGame() {
@@ -100,7 +100,7 @@ function newGame() {
 
     setGameFace("waiting");
 
-    const { rows, columns, mines, className } = getGameParameters();
+    const { level: { rows, columns, mines } } = getGameParameters();
 
     board = new Array(rows);
     picture = new Array(rows);
@@ -117,7 +117,9 @@ function newGame() {
     statusLabel.innerHTML = 'Click on the tiles to reveal them';
 
     const grid = document.getElementById('grid');
-    grid.className = className;
+    grid.className = level.name;
+
+    updateScores(level.name);
 
     // build grid
     for (let row = 0; row < rows; row++)
@@ -234,7 +236,7 @@ function click(event) {
         setGameFace("win")
         statusLabel.innerHTML = 'YOU WIN!<br><br>Click here to restart';
         clearInterval(intervalID);
-        sendResults(seconds, gameParameters.player);
+        sendResults(seconds, gameParameters);
         gameOver = true;
     }
 }
@@ -261,27 +263,34 @@ function reveal(row, column) {
 
 
 
-function sendResults(timeScore, player) {
+function sendResults(timeScore, gameParameters) {
     // check that a player has been selected, otherwise don't send results
+    const { player, level } = gameParameters;
     if (player.ID) {
         fetch('/api/scores/new', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ timeCompleted: timeScore, playerID: Number.parseInt(player.ID), playerName: player.name })
+            body: JSON.stringify({ timeCompleted: timeScore, playerID: Number.parseInt(player.ID), playerName: player.name, level: level.name })
         })
             .then(response => response.json())
             .then(data => {
-                updateScores();
+                updateScores(level.name);
             })
             .catch(error => console.error('Error:', error));
 
     }
 }
 
-function updateScores() {
-    fetch('/fragments/top-scores')
+async function updateScores(level) {
+    let url;
+    if (!level) {
+        url = "/fragments/top-scores";
+    } else {
+        url = `/fragments/top-scores/${level}`;
+    }
+    fetch(url)
         .then(response => response.text())
         .then((data) => {
             document.getElementById('scores-table-holder').innerHTML = data;

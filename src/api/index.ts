@@ -14,7 +14,7 @@ const api = new Elysia()
                         return JSON.stringify(result);
                     })
 
-                    .post("/new", async ({ db, body: { timeCompleted, playerID, playerName } }) => {
+                    .post("/new", async ({ db, body: { timeCompleted, playerID, playerName, level } }) => {
                         if (!playerID) {
                             return JSON.stringify({ error: "No userID integer provided" });
                         }
@@ -28,10 +28,18 @@ const api = new Elysia()
                             playerID = user.id;
                         }
 
-                        const result = await db.addScore(timeCompleted, playerID);
+                        const result = await db.addScore(timeCompleted, playerID, level);
                         return JSON.stringify(result);
                     },
-                        { body: t.Object({ timeCompleted: t.Number(), playerID: t.Number(), playerName: t.String() }) })
+                        {
+                            body: t.Object({
+                                timeCompleted: t.Number(), playerID: t.Number(), playerName: t.String(), level: t.Union([
+                                    t.Literal('beginner'),
+                                    t.Literal('intermediate'),
+                                    t.Literal('expert')
+                                ]),
+                            })
+                        })
 
                     .get("/delete", async ({ db, query: { scoreID } }) => {
                         const id = Number(scoreID);

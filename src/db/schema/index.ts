@@ -21,7 +21,8 @@ export const scores = sqliteTable('scores', {
         .$defaultFn(() => new Date()),
     userId: integer("userId")
         .references(() => users.id, { onUpdate: "cascade", onDelete: "cascade" })
-        .notNull()
+        .notNull(),
+    level: text('level', { enum: ["beginner", "intermediate", "expert"] }).default("beginner").notNull()
 });
 
 export type Score = typeof scores.$inferSelect;

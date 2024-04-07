@@ -110,14 +110,48 @@ export class MinesweeperDB {
         return result;
     }
 
-    async addScore(timeCompleted: number, userID: number) {
+    async getScoresByLevel(level: 'beginner' | 'intermediate' | 'expert') {
+
+        const rows = await this.db.select({
+            user: users.name,
+            userID: users.id,
+            timeCompleted: scores.timeCompleted,
+            createdAt: scores.createdAt,
+            scoreID: scores.id
+        }).from(scores).where(eq(scores.level, level)
+        ).leftJoin(users, eq(scores.userId, users.id)).orderBy(asc(scores.timeCompleted)).limit(10).all();
+
+
+        if (!rows) {
+            console.error("No scores found");
+            return { error: "No scores found" };
+        }
+
+        const result = [];
+        for (const row of rows) {
+
+            if (!row.userID) continue; // if user has been deleted but it didn't cascade to delete their scores
+
+            result.push({
+                user: row.user,
+                userID: row.userID,
+                timeCompleted: row.timeCompleted,
+                createdAt: row.createdAt,
+                scoreID: row.scoreID
+            });
+        }
+
+        return result;
+    }
+
+    async addScore(timeCompleted: number, userID: number, level: 'beginner' | 'intermediate' | 'expert') {
         if (!timeCompleted) {
             throw new Error(`No timeCompleted provided or wrong format: ${timeCompleted}`);
         }
 
         const result = await this.db
             .insert(scores)
-            .values({ timeCompleted, userId: userID })
+            .values({ timeCompleted, userId: userID, level })
             .returning()
             .get();
         return result;
