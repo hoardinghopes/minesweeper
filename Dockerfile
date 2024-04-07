@@ -9,8 +9,7 @@ RUN bun install
 
 COPY . .
 
-EXPOSE 3000
+EXPOSE 3572
 
-CMD ["bun", "db"]
 
 CMD ["bun", "./src/index.tsx"]
