@@ -20,7 +20,7 @@ export class MinesweeperDB {
     private db;
     constructor() {
         const client = createClient(options.remote);
-        this.db = drizzle(client, { schema, logger: true });
+        this.db = drizzle(client, { schema, logger: false });
     }
 
     getDB() {

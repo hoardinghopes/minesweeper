@@ -8,18 +8,12 @@ const stream = pretty({
     colorize: true,
 });
 
-const loggerConfig =
-    config.env.NODE_ENV === "development"
-        ? {
-            level: config.env.LOG_LEVEL,
-            stream,
-        }
-        : { level: config.env.LOG_LEVEL };
+
 
 export const ctx = new Elysia({
     name: "@app/ctx",
 })
     .decorate('db', new MinesweeperDB())
     .decorate("config", config)
-    .use(new HoltLogger().getLogger());
+// .use(new HoltLogger().getLogger());
 
