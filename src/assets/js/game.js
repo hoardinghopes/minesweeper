@@ -269,7 +269,7 @@ function sendResults(timeScore, player) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ timeCompleted: timeScore, playerID: Number.parseInt(player.ID) })
+            body: JSON.stringify({ timeCompleted: timeScore, playerID: Number.parseInt(player.ID), playerName: player.name })
         })
             .then(response => response.json())
             .then(data => {
