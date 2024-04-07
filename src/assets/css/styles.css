@@ -137,3 +137,18 @@ body {
 #face.red {
     color: red;
 }
+
+
+#scores-table-holder table td {
+    text-align: left;
+    padding: 0.25rem;
+    border: solid 1px grey;
+}
+
+#scores-table-holder table tr td:nth-child(2) {
+    text-align: center;
+}
+
+#scores-table-holder table tr td:last-child {
+    text-align: right;
+}
