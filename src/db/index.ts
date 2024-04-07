@@ -1,22 +1,26 @@
-import { drizzle } from "drizzle-orm/bun-sqlite";
-import { Database } from "bun:sqlite";
+import { drizzle } from "drizzle-orm/libsql";
 import { type SelectUser, scores, users } from "./schema";
 import { asc, eq } from "drizzle-orm";
+import { config } from "../config";
+import { type Config, createClient } from "@libsql/client";
+import * as schema from "./schema";
 
+const { DATABASE_CONNECTION_TYPE } = config.env;
 
-const TEST_DB_URI = "./data/test.db";
-const LIVE_DB_URI = "./data/minesweeper.db";
-
+const options = {
+    local: { url: "file:local.sqlite" },
+    remote: {
+        url: config.env.DATABASE_URL,
+        authToken: config.env.DATABASE_AUTH_TOKEN,
+    }
+} satisfies Record<typeof DATABASE_CONNECTION_TYPE, Config>;
 
 export class MinesweeperDB {
 
     private db;
     constructor() {
-        // if (process.env.NODE_ENV === 'test') {
-        //     this.db = drizzle(new Database(TEST_DB_URI));
-        // } else {
-        this.db = drizzle(new Database(LIVE_DB_URI));
-        // }
+        const client = createClient(options.remote);
+        this.db = drizzle(client, { schema, logger: true });
     }
 
     getDB() {
