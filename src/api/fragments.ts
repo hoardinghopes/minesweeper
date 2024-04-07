@@ -1,8 +1,6 @@
 import { Elysia } from "elysia";
-import { MinesweeperDB } from "../db";
 
 const api = new Elysia()
-    .decorate('db', new MinesweeperDB())
     .group('/fragments', (app) =>
         app
             .get("/", ({ set }) => {
