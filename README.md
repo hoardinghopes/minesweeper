@@ -17,6 +17,7 @@ All good projects make space for playing with one new technology. But home proje
 - [bun.sh](https://bun.sh/) - Nodejs alternative
 - [elysia](https://elysiajs.com/) - an ergonomic web framework for building backend servers with Bun.
 - [sqlite](https://www.sqlite.org/) - a small, fast, self-contained, high-reliability, full-featured, SQL database engine
+- [Turso](https://turso.tech/) - distributed sqlite databases
 - [drizzleORM](https://orm.drizzle.team/) - Drizzle ORM is a headless TypeScript ORM
 - ([alpinejs](https://alpinejs.dev/)) - a lightweight, JavaScript framework
 - ([htmx](https://htmx.org/)) - a library that allows you to access modern browser features directly from HTML, rather than using javascript.
@@ -36,19 +37,17 @@ bun install
 
 ## Database set up
 
+Update `.env` with relevant details (some of which come from the following calls).
+
 ```zsh
-# generate the SQL migration
-bun drizzle-kit generate:sqlite
-# run all new migrations
-bun run ./src/db/migrate.ts
+turso auth login
+turso update
+turso db create minesweeper --group default
+turso db show minesweeper --url
+turso db tokens create minesweeper
+bun db:push
 ```
 
-For `foreign key` constraints to work (e.g. cascading deletes), this functionality has to be switched on *within* the database:
-```zsh
-#sqlite3 ./data/minsweeper.db
-
-PRAGMA foreign_keys  = ON;
-```
 
 ## Development
 
@@ -73,3 +72,4 @@ Open <http://localhost:3572/> with your browser to see the result.
 - ~~update types etc so that Swagger interface is more useful~~
 - ~~`db.addScore()` does too much - it checks for a user, and creates one if it doesn't exist, and then adds the score. All this should be the responsibility of the API call, and `addScore()` should only add the score.~~
 - cover API with tests
+- ~~replace local DB with Turso, so the database can be accessed remotely~~
