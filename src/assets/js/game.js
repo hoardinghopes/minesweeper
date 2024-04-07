@@ -42,7 +42,7 @@ let gameOver = false;
 
 const statusLabel = document.getElementById('status');
 statusLabel.addEventListener('click', newGame);
-
+statusLabel.innerHTML = 'Select or create your player and level to start a new game';
 
 
 

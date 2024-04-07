@@ -43,7 +43,9 @@
 
             <div class="scores">
                 <h2>Fastest times</h2>
-                <div id="scores-table-holder" hx-get="/fragments/top-scores" hx-trigger="load"></div>
+                <div id="scores-table-holder" hx-get="/fragments/top-scores" hx-trigger="load">
+                    <img class="htmx-indicator" src="/i/images/spinner.gif">
+                </div>
             </div>
         </div>
 
