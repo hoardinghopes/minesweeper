@@ -73,3 +73,5 @@ Open <http://localhost:3572/> with your browser to see the result.
 - ~~`db.addScore()` does too much - it checks for a user, and creates one if it doesn't exist, and then adds the score. All this should be the responsibility of the API call, and `addScore()` should only add the score.~~
 - cover API with tests
 - ~~replace local DB with Turso, so the database can be accessed remotely~~
+- record score level too
+- ~~add 5.png~~
