@@ -61,7 +61,7 @@ export class MinesweeperDB {
         if (result) {
             return true;
         }
-        console.log(`deleteUser(${userID}): User not found`);
+        console.error(`deleteUser(${userID}): User not found`);
         return false;
     }
 
@@ -87,7 +87,6 @@ export class MinesweeperDB {
             scoreID: scores.id
         }).from(scores).leftJoin(users, eq(scores.userId, users.id)).orderBy(asc(scores.timeCompleted)).limit(10).all();
 
-        console.log(rows)
 
         if (!rows) {
             console.error("No scores found");

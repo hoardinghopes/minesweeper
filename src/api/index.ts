@@ -37,7 +37,6 @@ const api = new Elysia()
                         if (!id) {
                             return JSON.stringify({ error: "No scoreID integer provided" });
                         }
-                        console.log(`/api/scores/delete: ${scoreID}`);
                         const result = await db.deleteScore(id);
                         return JSON.stringify(result);
                     },
