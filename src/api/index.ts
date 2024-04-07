@@ -2,7 +2,6 @@ import { Elysia, t } from "elysia";
 import { MinesweeperDB } from "../db";
 
 const api = new Elysia()
-    .decorate('db', new MinesweeperDB())
     .group('/api', (app) =>
         app
             .get("/", ({ set }) => {
@@ -15,25 +14,23 @@ const api = new Elysia()
                         return JSON.stringify(result);
                     })
 
-                    .get("/new", async ({ db, query: { timeCompleted, userID } }) => {
-                        const id = Number(userID);
-                        const score = Number(timeCompleted);
-                        if (!id) {
+                    .post("/new", async ({ db, body: { timeCompleted, playerID } }) => {
+                        if (!playerID) {
                             return JSON.stringify({ error: "No userID integer provided" });
                         }
                         if (!timeCompleted) {
                             return JSON.stringify({ error: "No timeCompleted integer provided" });
                         }
 
-                        const user = await db.getUser(id);
+                        const user = await db.getUser(playerID);
                         if (!user) {
                             return JSON.stringify({ error: "User not found" });
                         }
 
-                        const result = await db.addScore(score, id);
+                        const result = await db.addScore(timeCompleted, playerID);
                         return JSON.stringify(result);
                     },
-                        { query: t.Object({ timeCompleted: t.String(), userID: t.String() }) })
+                        { body: t.Object({ timeCompleted: t.Number(), playerID: t.Number() }) })
 
                     .get("/delete", async ({ db, query: { scoreID } }) => {
                         const id = Number(scoreID);
